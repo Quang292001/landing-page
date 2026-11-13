@@ -1,153 +1,1669 @@
-:root{
-  --bg:#f7f6f1; --ink:#282b25; --muted:#686b60; --olive:#535d3e; --olive-2:#697450;
-  --rule:#d6d8cd; --sage:#e8eadd; --sage-2:#f0f0e9; --sage-3:#edeee6; --body:#5b6053;
-  --dark:#343d2e; --nav-ink:#302820;
-  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Be Vietnam Pro',system-ui,sans-serif;
-  --pad:clamp(20px,5.55vw,80px);
+/* ==========================================================================
+   MỘC Studio — Landing page stylesheet
+   --------------------------------------------------------------------------
+   MỤC LỤC
+     01. Design tokens
+     02. Base & reset
+     03. Layout & thành phần dùng chung
+     04. Navigation
+     05. Hero
+     06. Studio values
+     07. Selected stories — Bộ ảnh
+     08. About — Về Mộc
+     09. Services — Gói chụp
+     10. Process — Quy trình
+     11. Kind words — Lời nhắn
+     12. Booking — Đặt lịch
+     13. Footer
+     14. Floating contact — Zalo / TikTok
+     15. Lightbox — Xem bộ ảnh
+     16. Motion — Hiệu ứng khi cuộn
+     17. Reduced motion
+
+   QUY ƯỚC
+     · Breakpoint: 1100px (tablet) · 600px (mobile) — viết ngay trong từng section.
+     · Hover chỉ bật cho thiết bị có chuột: @media (hover: hover).
+     · Class do JavaScript gắn: .js, .reveal, .is-in, .img-reveal,
+       .split, .w/.wi, .is-scrolled, .is-hidden, .active, .show, .is-changing.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Design tokens
+   ========================================================================== */
+
+:root {
+  /* Màu nền */
+  --color-bg: #f7f6f1;
+  --color-surface: #f0f0e9;
+  --color-sage: #e8eadd;
+  --color-sage-soft: #edeee6;
+  --color-dark: #343d2e;
+
+  /* Màu chữ */
+  --color-ink: #282b25;
+  --color-body: #5b6053;
+  --color-muted: #686b60;
+  --color-accent: #535d3e;
+  --color-accent-hover: #434c31;
+  --color-accent-soft: #697450;
+
+  /* Đường kẻ */
+  --color-rule: #d6d8cd;
+  --color-rule-soft: #d0d3c5;
+
+  /* Navigation */
+  --color-nav-bg: #f8f6f2;
+  --color-nav-border: #d8cfc3;
+  --color-nav-ink: #302820;
+
+  /* Trên nền tối (Booking) */
+  --color-on-dark: #f7f6f1;
+  --color-on-dark-soft: #dfe1d6;
+  --color-on-dark-muted: #d9dec9;
+  --color-on-dark-label: #e6e9dd;
+  --color-on-dark-line: #88907a;
+  --color-on-dark-cta: #e9eddc;
+
+  /* Thương hiệu bên ngoài */
+  --color-zalo: #0068ff;
+  --color-tiktok: #111;
+
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-logo: 'Playfair Display', Georgia, serif;
+  --leading-body: 1.65;
+  --tracking-wide: .12em;
+
+  /* Layout */
+  --container: 1440px;
+  --gutter: clamp(20px, 5.55vw, 80px);
+  --grid-gap: 25px;
+  --nav-h: 90px;
+  --radius: 2px;
+
+  /* Đổ bóng */
+  --shadow-nav: 0 6px 24px rgba(48, 40, 32, .08);
+  --shadow-cta: 0 10px 20px -10px rgba(48, 40, 32, .55);
+  --shadow-photo: 0 24px 40px -18px rgba(40, 43, 37, .38);
+  --shadow-card: 0 26px 44px -20px rgba(40, 43, 37, .32);
+  --shadow-btn: 0 14px 26px -12px rgba(83, 93, 62, .65);
+  --shadow-btn-dark: 0 14px 26px -12px rgba(0, 0, 0, .5);
+  --shadow-float: 0 10px 24px -8px rgba(0, 0, 0, .45);
+
+  /* Chuyển động */
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --dur-fast: .2s;
+  --dur-base: .3s;
+  --dur-slow: .4s;
+
+  /* Lớp xếp chồng */
+  --z-nav: 50;
+  --z-float: 60;
+  --z-progress: 100;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1440px;margin:0 auto;padding-inline:var(--pad)}
-.label{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--olive)}
-.h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,4.03vw,58px);line-height:1.1}
-.link{font-size:14px;font-weight:500;transition:opacity .2s}
-.link:hover{opacity:.6}
-.ph{background:var(--rule);overflow:hidden}
-.ph img{width:100%;height:100%;object-fit:cover}
 
-/* Navigation */
-.nav{background:#f8f6f2;border:1px solid #d8cfc3;height:90px}
-.nav .in{max-width:1440px;margin:0 auto;height:100%;padding-inline:clamp(20px,2.64vw,38px);display:flex;align-items:center;gap:32px}
-.logo{font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(24px,2.5vw,36px);color:var(--nav-ink);white-space:nowrap}
-.nav ul{list-style:none;display:flex;gap:clamp(24px,3.9vw,56px);margin-left:clamp(0px,12vw,170px);font:500 20px/1 'Inter',sans-serif;color:var(--nav-ink)}
-.nav ul a:hover{opacity:.6}
-.nav .cta{margin-left:auto;background:var(--nav-ink);color:#fff;border-radius:2px;height:44px;padding:0 24px;display:flex;align-items:center;font:600 13px/1 'Inter',sans-serif;letter-spacing:.04em;white-space:nowrap;transition:opacity .2s}
-.nav .cta:hover{opacity:.85}
 
-/* Hero */
-.hero .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,650px);min-height:801px}
-.hero .left{padding-top:72px;display:flex;flex-direction:column}
-.hero .eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;color:var(--olive)}
-.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,6.11vw,88px);line-height:1;margin-top:40px;margin-left:-4px}
-.hero .desc{font-size:16px;color:var(--muted);margin-top:46px;max-width:530px}
-.hero .actions{display:flex;align-items:center;gap:28px;margin-top:51px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--olive);color:#fff;height:58px;padding:0 24px;font-size:14px;font-weight:500;transition:background .2s}
-.btn:hover{background:#434c31}
-.hero .edition{font-size:10px;font-weight:500;letter-spacing:.12em;color:var(--muted);margin-top:auto;padding-top:32px}
-.hero .right{padding-top:38px}
-.hero .right .ph{aspect-ratio:650/728}
-.hero .cap{display:flex;justify-content:space-between;gap:16px;margin-top:19px;font-size:11px;color:var(--muted);line-height:18px}
-.hero .cap span:first-child{font-weight:500;letter-spacing:.12em}
-.hero .cap span:last-child{font-size:12px}
-.hero{padding-bottom:49px}
+/* ==========================================================================
+   02. Base & reset
+   ========================================================================== */
 
-/* Values */
-.values .wrap{padding-top:0}
-.values .row{border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,1fr);padding-block:33px 33px}
-.values .item{display:flex;gap:7px;align-items:baseline}
-.values .idx{font-size:12px;color:var(--olive);width:40px}
-.values .v{font-size:18px}
-
-/* Stories */
-.stories{padding-block:62px 58px}
-.stories .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:58px}
-.stories .head .h2{margin-top:20px}
-.stories .more{font-size:13px;margin-bottom:11px;white-space:nowrap}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;align-items:start}
-.card:nth-child(2){margin-top:62px}
-.card .ph{aspect-ratio:410/540}
-.card h3{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.1;margin-top:23px}
-.card p{font-size:10px;font-weight:500;letter-spacing:.12em;color:var(--muted);margin-top:15px;text-transform:uppercase}
-
-/* About */
-.about{background:var(--sage)}
-.about .wrap{display:grid;grid-template-columns:560px minmax(0,1fr);gap:100px;padding-block:70px}
-.about .ph{height:510px}
-.about .txt{padding-top:24px}
-.about .h2{margin-top:28px}
-.about .p{font-size:16px;color:var(--body);margin-top:37px;max-width:545px}
-.about .p p+p{margin-top:1.65em}
-.about .link{display:inline-block;margin-top:48px}
-
-/* Services */
-.services{padding-block:65px 70px}
-.services .h2{margin-top:22px}
-.services .note{font-size:14px;color:var(--muted);margin-top:16px}
-.pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:42px}
-.pkg{background:var(--sage-2);padding:25px 28px 27px;display:flex;flex-direction:column}
-.pkg:nth-child(2){background:var(--sage)}
-.pkg .k{font-size:10px;letter-spacing:.12em;color:var(--olive)}
-.pkg h3{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1.1;margin-top:16px}
-.pkg .price{font-size:18px;margin-top:13px}
-.pkg .d{font-size:13px;color:var(--muted);margin-top:14px}
-.pkg hr{border:0;height:1px;background:#d0d3c5;margin:20px 0 17px}
-.pkg ul{list-style:none;font-size:13px;color:var(--body)}
-.pkg .link{font-size:13px;font-weight:400;margin-top:auto;padding-top:28px;align-self:flex-start}
-
-/* Process */
-.process{background:var(--sage-3);padding-block:55px 62px}
-.process h2{font-family:var(--serif);font-weight:400;font-size:clamp(36px,3.61vw,52px);line-height:1.1}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:56px}
-.step{display:flex;gap:0}
-.step .n{font-family:var(--serif);font-size:38px;line-height:1.1;color:var(--olive-2);width:74px;flex:none}
-.step h3{font-weight:400;font-size:21px;margin-top:5px}
-.step p{font-size:14px;color:var(--muted);margin-top:19px}
-
-/* Kind words */
-.kind{text-align:center;padding-block:57px 62px}
-.kind blockquote{font-family:var(--serif);font-style:italic;font-size:clamp(26px,3.06vw,44px);line-height:1.2;max-width:1100px;margin:34px auto 0}
-.kind .who{font-size:11px;letter-spacing:.12em;margin-top:39px}
-.kind .cap{font-size:11px;color:var(--muted);margin-top:17px}
-
-/* Booking */
-.booking{background:var(--dark);color:#f7f6f1}
-.booking .wrap{display:grid;grid-template-columns:1fr 570px;gap:140px;padding-block:72px 60px}
-.booking .label{color:#d9dec9}
-.booking h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,4.58vw,66px);line-height:1.2;margin-top:24px}
-.booking .desc{font-size:16px;color:#dfe1d6;margin-top:34px;max-width:580px}
-.booking .contact{font-size:12px;color:#d9dec9;margin-top:62px}
-form{padding-top:12px}
-.field{display:block;margin-bottom:31px}
-.field span{display:block;font-size:12px;color:#e6e9dd}
-.field input,.field select{width:100%;background:transparent;border:0;border-bottom:1px solid #88907a;color:#f7f6f1;font:400 15px var(--sans);padding:10px 0 12px;border-radius:0;outline:0;appearance:none;-webkit-appearance:none}
-.field input:focus,.field select:focus{border-color:#e9eddc}
-.field select{cursor:pointer;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23e6e9dd' stroke-width='1.5'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 4px center}
-.field select option{color:#282b25}
-form button{width:100%;height:60px;background:#e9eddc;color:var(--dark);border:0;font:500 14px var(--sans);cursor:pointer;margin-top:18px;transition:opacity .2s}
-form button:hover{opacity:.9}
-.note2{font-size:11px;color:#d9dec9;margin-top:18px}
-.ok{display:none;margin-top:18px;font-size:14px;color:#e9eddc}
-
-/* Footer */
-.foot .top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-top:45px;padding-bottom:49px;border-bottom:1px solid var(--rule)}
-.foot .mark{font-family:var(--serif);font-size:34px;line-height:1.2}
-.foot .tag{font-size:12px;color:var(--muted);margin-top:12px}
-.foot .soc{font-size:13px;margin-top:14px;display:flex;gap:28px}
-.foot .soc a:not(:last-child)::after{content:"/";margin-left:28px;color:var(--muted)}
-.foot .soc a:hover{opacity:.6}
-.foot .bot{display:flex;justify-content:space-between;gap:16px;padding-block:24px 36px;font-size:11px;color:var(--muted);flex-wrap:wrap}
-.foot .bot span:last-child{font-size:10px;letter-spacing:.08em}
-
-/* Responsive */
-@media(max-width:1100px){
-  .nav ul{display:none}
-  .hero .grid{grid-template-columns:1fr;min-height:0}
-  .hero .right{padding-top:48px}
-  .hero .edition{margin-top:48px;padding-top:0}
-  .cards,.pkgs,.steps{grid-template-columns:1fr}
-  .card:nth-child(2){margin-top:0}
-  .card{max-width:520px}
-  .about .wrap{grid-template-columns:1fr;gap:48px}
-  .about .ph{height:auto;aspect-ratio:560/510}
-  .booking .wrap{grid-template-columns:1fr;gap:56px}
-  .booking .contact{margin-top:32px}
-  .values .row{grid-template-columns:1fr;gap:14px}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-@media(max-width:600px){
-  .stories .head{flex-direction:column;align-items:flex-start}
-  .foot .top{flex-direction:column}
-  .hero .actions{gap:16px}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+
+/* ==========================================================================
+   03. Layout & thành phần dùng chung
+   ========================================================================== */
+
+.wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+/* Nhãn nhỏ viết hoa phía trên tiêu đề */
+.label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Tiêu đề section */
+.h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(38px, 4.03vw, 58px);
+  line-height: 1.1;
+}
+
+/* Link chữ có mũi tên → */
+.link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  transition: transform var(--dur-base) var(--ease), opacity var(--dur-fast);
+}
+
+/* Khung ảnh: giữ tỉ lệ, nền chờ khi ảnh chưa tải */
+.ph {
+  background: var(--color-rule);
+  overflow: hidden;
+}
+
+.ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Icon SVG dạng nét */
+.ic {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Nút chính */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 58px;
+  padding: 0 24px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    background var(--dur-fast),
+    transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    transform: translateX(5px);
+  }
+
+  .btn:hover {
+    background: var(--color-accent-hover);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-btn);
+  }
+}
+
+
+/* ==========================================================================
+   04. Navigation
+   ========================================================================== */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  height: var(--nav-h);
+  background: var(--color-nav-bg);
+  border: 1px solid var(--color-nav-border);
+  transition: transform var(--dur-slow) var(--ease), box-shadow var(--dur-base);
+}
+
+.nav.is-scrolled {
+  box-shadow: var(--shadow-nav);
+}
+
+/* Ẩn khi kéo xuống, hiện lại khi kéo lên (JS gắn class) */
+.nav.is-hidden {
+  transform: translateY(-100%);
+}
+
+.nav .in {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: var(--container);
+  height: 100%;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 2.64vw, 38px);
+}
+
+.logo {
+  font-family: var(--font-logo);
+  font-weight: 500;
+  font-size: clamp(24px, 2.5vw, 36px);
+  color: var(--color-nav-ink);
+  white-space: nowrap;
+}
+
+.nav ul {
+  display: flex;
+  gap: clamp(24px, 3.9vw, 56px);
+  margin-left: clamp(0px, 12vw, 170px);
+  list-style: none;
+  font: 500 20px/1 var(--font-ui);
+  color: var(--color-nav-ink);
+}
+
+.nav ul a {
+  position: relative;
+  padding-block: 6px;
+}
+
+/* Gạch chân chạy ra khi hover / đang ở section đó */
+.nav ul a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .35s var(--ease);
+}
+
+.nav ul a.active::after {
+  transform: scaleX(1);
+}
+
+.nav .cta {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin-left: auto;
+  padding: 0 24px;
+  border-radius: var(--radius);
+  background: var(--color-nav-ink);
+  color: #fff;
+  font: 600 13px/1 var(--font-ui);
+  letter-spacing: .04em;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base),
+    opacity var(--dur-fast);
+}
+
+@media (hover: hover) {
+  .nav ul a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .nav .cta:hover {
+    opacity: .85;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-cta);
+  }
+}
+
+@media (max-width: 1100px) {
+  .nav ul {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   05. Hero
+   ========================================================================== */
+
+.hero {
+  padding-bottom: 49px;
+}
+
+.hero .grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 650px);
+  min-height: 801px;
+}
+
+.hero .left {
+  display: flex;
+  flex-direction: column;
+  padding-top: 72px;
+}
+
+.hero .eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-accent);
+}
+
+.hero h1 {
+  margin-top: 40px;
+  margin-left: -4px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(52px, 6.11vw, 88px);
+  line-height: 1;
+}
+
+.hero .desc {
+  max-width: 530px;
+  margin-top: 46px;
+  font-size: 16px;
+  color: var(--color-muted);
+}
+
+.hero .actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  margin-top: 51px;
+}
+
+.hero .edition {
+  margin-top: auto;
+  padding-top: 32px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-muted);
+}
+
+.hero .right {
+  padding-top: 38px;
+}
+
+.hero .right .ph {
+  aspect-ratio: 650 / 728;
+}
+
+.hero .cap {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 19px;
+  font-size: 11px;
+  line-height: 18px;
+  color: var(--color-muted);
+}
+
+.hero .cap span:first-child {
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+}
+
+.hero .cap span:last-child {
+  font-size: 12px;
+}
+
+@media (max-width: 1100px) {
+  .hero .grid {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .hero .right {
+    padding-top: 48px;
+  }
+
+  .hero .edition {
+    margin-top: 48px;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero .actions {
+    gap: 16px;
+  }
+}
+
+
+/* ==========================================================================
+   06. Studio values
+   ========================================================================== */
+
+.values .row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-block: 33px;
+  border-top: 1px solid var(--color-rule);
+}
+
+.values .item {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+.values .idx {
+  width: 40px;
+  font-size: 12px;
+  color: var(--color-accent);
+}
+
+.values .v {
+  font-size: 18px;
+}
+
+@media (hover: hover) {
+  .values .item:hover {
+    transform: translateX(6px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .values .row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+
+/* ==========================================================================
+   07. Selected stories — Bộ ảnh
+   ========================================================================== */
+
+.stories {
+  padding-block: 62px 58px;
+}
+
+.stories .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 58px;
+}
+
+.stories .head .h2 {
+  margin-top: 20px;
+}
+
+.stories .more {
+  margin-bottom: 11px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+  gap: var(--grid-gap);
+}
+
+.card {
+  position: relative;
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+/* Nút trong suốt phủ cả card: bấm vào đâu cũng mở bộ ảnh */
+.card-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+/* Nhãn "Xem bộ ảnh · N ảnh" (JS điền nội dung) */
+.card-count {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 6px 12px;
+  background: rgba(247, 246, 241, .92);
+  color: var(--color-ink);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  opacity: 0;
+  translate: 0 8px;
+  transition: opacity var(--dur-base), translate var(--dur-base) var(--ease);
+}
+
+.card-count:empty {
+  display: none;
+}
+
+/* Card giữa so le xuống, tạo nhịp cho bố cục */
+.card:nth-child(2) {
+  margin-top: 62px;
+}
+
+.card .ph {
+  position: relative;
+  aspect-ratio: 410 / 540;
+  transition: box-shadow var(--dur-slow) var(--ease);
+}
+
+.card .ph img {
+  transition: transform .9s var(--ease);
+}
+
+.card h3 {
+  margin-top: 23px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 31px;
+  line-height: 1.1;
+  transition: color var(--dur-base);
+}
+
+.card p {
+  margin-top: 15px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-10px);
+  }
+
+  .card:hover .ph {
+    box-shadow: var(--shadow-photo);
+  }
+
+  .card:hover .ph img {
+    transform: scale(1.06);
+  }
+
+  .card:hover h3 {
+    color: var(--color-accent);
+  }
+
+  .card:hover .card-count {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Màn hình cảm ứng: luôn hiện nhãn để khách biết bấm được */
+@media (hover: none) {
+  .card-count {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    max-width: 520px;
+  }
+
+  .card:nth-child(2) {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .stories .head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/* ==========================================================================
+   08. About — Về Mộc
+   ========================================================================== */
+
+.about {
+  background: var(--color-sage);
+}
+
+.about .wrap {
+  display: grid;
+  grid-template-columns: 560px minmax(0, 1fr);
+  gap: 100px;
+  padding-block: 70px;
+}
+
+.about .ph {
+  height: 510px;
+}
+
+.about .txt {
+  padding-top: 24px;
+}
+
+.about .h2 {
+  margin-top: 28px;
+}
+
+.about .p {
+  max-width: 545px;
+  margin-top: 37px;
+  font-size: 16px;
+  color: var(--color-body);
+}
+
+.about .p p + p {
+  margin-top: 1.65em;
+}
+
+.about .link {
+  margin-top: 48px;
+}
+
+@media (max-width: 1100px) {
+  .about .wrap {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about .ph {
+    height: auto;
+    aspect-ratio: 560 / 510;
+  }
+}
+
+
+/* ==========================================================================
+   09. Services — Gói chụp
+   ========================================================================== */
+
+.services {
+  padding-block: 65px 70px;
+}
+
+.services .h2 {
+  margin-top: 22px;
+}
+
+.services .note {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.pkgs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+  margin-top: 42px;
+}
+
+.pkg {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 28px 27px;
+  background: var(--color-surface);
+  transition: transform var(--dur-slow) var(--ease), box-shadow var(--dur-slow) var(--ease);
+}
+
+.pkg:nth-child(2) {
+  background: var(--color-sage);
+}
+
+.pkg .k {
+  font-size: 10px;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-accent);
+}
+
+.pkg h3 {
+  margin-top: 16px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.1;
+}
+
+.pkg .price {
+  margin-top: 13px;
+  font-size: 18px;
+}
+
+.pkg .d {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.pkg hr {
+  height: 1px;
+  margin: 20px 0 17px;
+  border: 0;
+  background: var(--color-rule-soft);
+}
+
+.pkg ul {
+  list-style: none;
+  font-size: 13px;
+  color: var(--color-body);
+}
+
+.pkg .link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 28px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+@media (hover: hover) {
+  .pkg:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-card);
+  }
+}
+
+@media (max-width: 1100px) {
+  .pkgs {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================================================
+   10. Process — Quy trình
+   ========================================================================== */
+
+.process {
+  padding-block: 55px 62px;
+  background: var(--color-sage-soft);
+}
+
+.process h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(36px, 3.61vw, 52px);
+  line-height: 1.1;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+  margin-top: 56px;
+}
+
+.step {
+  display: flex;
+}
+
+.step .n {
+  flex: none;
+  width: 74px;
+  font-family: var(--font-serif);
+  font-size: 38px;
+  line-height: 1.1;
+  color: var(--color-accent-soft);
+  transition: color var(--dur-base), transform var(--dur-slow) var(--ease);
+}
+
+.step h3 {
+  margin-top: 5px;
+  font-weight: 400;
+  font-size: 21px;
+}
+
+.step p {
+  margin-top: 19px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+@media (hover: hover) {
+  .step:hover .n {
+    color: var(--color-accent);
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width: 1100px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ==========================================================================
+   11. Kind words — Lời nhắn
+   ========================================================================== */
+
+.kind {
+  padding-block: 57px 62px;
+  text-align: center;
+}
+
+.kind blockquote {
+  max-width: 1100px;
+  margin: 34px auto 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(26px, 3.06vw, 44px);
+  line-height: 1.2;
+}
+
+.kind .who {
+  margin-top: 39px;
+  font-size: 11px;
+  letter-spacing: var(--tracking-wide);
+}
+
+.kind .cap {
+  margin-top: 17px;
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+
+/* ==========================================================================
+   12. Booking — Đặt lịch
+   ========================================================================== */
+
+.booking {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.booking :focus-visible {
+  outline-color: var(--color-on-dark-cta);
+}
+
+.booking .wrap {
+  display: grid;
+  grid-template-columns: 1fr 570px;
+  gap: 140px;
+  padding-block: 72px 60px;
+}
+
+.booking .label {
+  color: var(--color-on-dark-muted);
+}
+
+.booking h2 {
+  margin-top: 24px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(44px, 4.58vw, 66px);
+  line-height: 1.2;
+}
+
+.booking .desc {
+  max-width: 580px;
+  margin-top: 34px;
+  font-size: 16px;
+  color: var(--color-on-dark-soft);
+}
+
+.booking .contact {
+  margin-top: 28px;
+  font-size: 12px;
+  color: var(--color-on-dark-muted);
+}
+
+/* Liên hệ trực tiếp: Zalo / TikTok */
+.direct {
+  margin-top: 44px;
+}
+
+.direct .t {
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: var(--color-on-dark-muted);
+}
+
+.direct .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.chat {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 22px;
+  border: 1px solid var(--color-on-dark-line);
+  color: var(--color-on-dark);
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    transform var(--dur-base) var(--ease),
+    background-color var(--dur-base),
+    color var(--dur-base),
+    border-color var(--dur-base),
+    box-shadow var(--dur-base);
+}
+
+/* Form */
+.booking form {
+  padding-top: 12px;
+}
+
+.field {
+  display: block;
+  margin-bottom: 31px;
+}
+
+.field span {
+  display: block;
+  font-size: 12px;
+  color: var(--color-on-dark-label);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px 0 12px;
+  border: 0;
+  border-bottom: 1px solid var(--color-on-dark-line);
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-on-dark);
+  font: 400 15px var(--font-sans);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--color-on-dark-cta);
+}
+
+.field select {
+  cursor: pointer;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23e6e9dd' stroke-width='1.5'%3E%3Cpath d='m1 1.5 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 4px center;
+}
+
+.field select option {
+  color: var(--color-ink);
+}
+
+.booking form button {
+  width: 100%;
+  height: 60px;
+  margin-top: 18px;
+  border: 0;
+  background: var(--color-on-dark-cta);
+  color: var(--color-dark);
+  font: 500 14px var(--font-sans);
+  cursor: pointer;
+  transition:
+    opacity var(--dur-fast),
+    transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base);
+}
+
+.note2 {
+  margin-top: 18px;
+  font-size: 11px;
+  color: var(--color-on-dark-muted);
+}
+
+/* Thông báo gửi thành công (JS hiển thị) */
+.ok {
+  display: none;
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--color-on-dark-cta);
+}
+
+.ok a {
+  text-underline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .chat:hover {
+    border-color: var(--color-on-dark-cta);
+    background: var(--color-on-dark-cta);
+    color: var(--color-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-btn-dark);
+  }
+
+  .booking form button:hover {
+    opacity: .9;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-btn-dark);
+  }
+}
+
+@media (max-width: 1100px) {
+  .booking .wrap {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+}
+
+
+/* ==========================================================================
+   13. Footer
+   ========================================================================== */
+
+.foot .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding-block: 45px 49px;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.foot .mark {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.foot .tag {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.foot .soc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.foot .soc a {
+  transition: color var(--dur-fast);
+}
+
+/* Dấu "/" ngăn cách giữa các mạng xã hội */
+.foot .soc a:not(:last-child)::after {
+  content: "/";
+  margin-left: 28px;
+  color: var(--color-muted);
+}
+
+.foot .bot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 24px 36px;
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+.foot .bot span:last-child {
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+
+@media (hover: hover) {
+  .foot .soc a:hover {
+    color: var(--color-accent);
+  }
+}
+
+@media (max-width: 600px) {
+  .foot .top {
+    flex-direction: column;
+  }
+}
+
+
+/* ==========================================================================
+   14. Floating contact — Zalo / TikTok
+   ========================================================================== */
+
+.float {
+  position: fixed;
+  right: clamp(14px, 2vw, 28px);
+  bottom: clamp(14px, 2vw, 28px);
+  z-index: var(--z-float);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  opacity: 0;
+  translate: 0 20px;
+  pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease), translate var(--dur-slow) var(--ease);
+}
+
+/* Hiện ra sau khi cuộn qua hero (JS gắn class) */
+.float.show {
+  opacity: 1;
+  translate: 0 0;
+  pointer-events: auto;
+}
+
+.float a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  color: #fff;
+  box-shadow: var(--shadow-float);
+  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base);
+}
+
+.float .z {
+  background: var(--color-zalo);
+}
+
+.float .t {
+  background: var(--color-tiktok);
+}
+
+/* Tooltip lấy nội dung từ data-tip */
+.float a::before {
+  content: attr(data-tip);
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 12px);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  background: var(--color-nav-ink);
+  color: #fff;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 8px -50%;
+  pointer-events: none;
+  transition: opacity .25s, translate .25s;
+}
+
+/* Vòng sóng lan ra quanh nút Zalo */
+.float .z::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--color-zalo);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ping 2.4s var(--ease) infinite;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: .7;
+  }
+
+  80%,
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@media (hover: hover) {
+  .float a:hover {
+    transform: translateY(-4px) scale(1.06);
+  }
+
+  .float a:hover::before {
+    opacity: 1;
+    translate: 0 -50%;
+  }
+}
+
+
+/* ==========================================================================
+   15. Lightbox — Xem bộ ảnh
+   Dùng <dialog> gốc của trình duyệt: tự khoá focus, Esc để đóng.
+   ========================================================================== */
+
+.lb {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-on-dark);
+}
+
+.lb::backdrop {
+  background: rgba(26, 29, 23, .98);
+}
+
+.lb[open]::backdrop {
+  animation: lb-fade var(--dur-base) var(--ease);
+}
+
+.lb-inner {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 32px) var(--gutter);
+}
+
+.lb[open] .lb-inner {
+  animation: lb-rise var(--dur-slow) var(--ease);
+}
+
+.lb-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.lb-meta {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-on-dark-muted);
+}
+
+.lb-title {
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.1;
+}
+
+.lb-count {
+  margin-left: auto;
+  padding-top: 12px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-on-dark-muted);
+}
+
+.lb-close {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-on-dark-line);
+  background: transparent;
+  color: var(--color-on-dark);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--dur-base), color var(--dur-base), border-color var(--dur-base);
+}
+
+/* Khung ảnh chính */
+.lb-stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  margin-top: 20px;
+  touch-action: pan-y;
+}
+
+.lb-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6);
+  user-select: none;
+}
+
+/* JS gắn .is-changing mỗi lần đổi ảnh để chạy lại hiệu ứng */
+.lb-img.is-changing {
+  animation: lb-photo .45s var(--ease);
+}
+
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 50%;
+  background: rgba(26, 29, 23, .55);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  translate: 0 -50%;
+  transition: background-color var(--dur-base), color var(--dur-base), transform var(--dur-base) var(--ease);
+}
+
+.lb-prev {
+  left: 0;
+}
+
+.lb-next {
+  right: 0;
+}
+
+.lb-nav[hidden],
+.lb-thumbs[hidden] {
+  display: none;
+}
+
+/* Dải ảnh nhỏ */
+.lb-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+/* Căn giữa khi ít ảnh, vẫn cuộn được khi nhiều ảnh */
+.lb-thumbs > :first-child {
+  margin-left: auto;
+}
+
+.lb-thumbs > :last-child {
+  margin-right: auto;
+}
+
+.lb-thumb {
+  flex: none;
+  width: 56px;
+  height: 72px;
+  padding: 0;
+  border: 1px solid transparent;
+  background: var(--color-dark);
+  opacity: .5;
+  cursor: pointer;
+  transition: opacity var(--dur-base), border-color var(--dur-base);
+}
+
+.lb-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lb-thumb[aria-current="true"] {
+  border-color: var(--color-on-dark-cta);
+  opacity: 1;
+}
+
+.lb-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 20px;
+}
+
+.lb .btn {
+  background: var(--color-on-dark-cta);
+  color: var(--color-dark);
+}
+
+.lb .lb-more {
+  font-weight: 400;
+  color: var(--color-on-dark);
+}
+
+.lb :focus-visible {
+  outline-color: var(--color-on-dark-cta);
+}
+
+@keyframes lb-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes lb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes lb-photo {
+  from {
+    opacity: 0;
+    transform: scale(.98);
+  }
+}
+
+@media (hover: hover) {
+  .lb-close:hover,
+  .lb-nav:hover {
+    border-color: var(--color-on-dark-cta);
+    background: var(--color-on-dark-cta);
+    color: var(--color-dark);
+  }
+
+  .lb-thumb:hover {
+    opacity: 1;
+  }
+
+  .lb .btn:hover {
+    background: #fff;
+  }
+}
+
+@media (max-width: 600px) {
+  .lb-nav {
+    width: 42px;
+    height: 42px;
+    font-size: 17px;
+  }
+
+  .lb-foot {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+
+/* ==========================================================================
+   16. Motion — Hiệu ứng khi cuộn
+   Đặt sau các section để transition ở đây được ưu tiên đúng thứ tự cascade.
+   ========================================================================== */
+
+/* Thanh tiến trình cuộn trang */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-progress);
+  width: 100%;
+  height: 3px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* Parallax nhẹ cho ảnh lớn — JS cập nhật --py khi cuộn */
+.hero .ph img,
+.about .ph img {
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.1);
+  will-change: transform;
+}
+
+/* Khối trồi lên / trượt vào.
+   Dùng thuộc tính `translate` để không đè `transform` của hiệu ứng hover.
+   --d: độ trễ do JS gán cho từng phần tử. */
+.js .reveal {
+  opacity: 0;
+  translate: 0 36px;
+  transition:
+    opacity .9s var(--ease) var(--d, 0s),
+    translate .9s var(--ease) var(--d, 0s),
+    transform var(--dur-slow) var(--ease),
+    box-shadow var(--dur-slow) var(--ease),
+    background-color var(--dur-base);
+}
+
+.js .reveal.fade-left {
+  translate: -40px 0;
+}
+
+.js .reveal.fade-right {
+  translate: 40px 0;
+}
+
+.js .reveal.is-in {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Hình mở ra như kéo rèm + zoom nhẹ từ ngoài vào.
+   Lớp che (clip-path) đặt trên <img> chứ không đặt trên khung .ph:
+   khung bị che kín sẽ bị trình duyệt coi là "không nhìn thấy",
+   IntersectionObserver không báo và ảnh không bao giờ hiện. */
+.js .img-reveal {
+  background: transparent;
+}
+
+.js .img-reveal img {
+  clip-path: inset(0 0 100% 0);
+  scale: 1.25;
+  transition:
+    clip-path 1.3s var(--ease) var(--d, 0s),
+    scale 1.8s var(--ease) var(--d, 0s);
+}
+
+.js .about .img-reveal img {
+  clip-path: inset(0 100% 0 0);
+}
+
+.js .card .img-reveal img {
+  transition:
+    clip-path 1.3s var(--ease) var(--d, 0s),
+    scale 1.8s var(--ease) var(--d, 0s),
+    transform .9s var(--ease);
+}
+
+.js .img-reveal.is-in img {
+  clip-path: inset(0 0 0 0);
+  scale: 1;
+}
+
+/* Chữ chạy lên từng từ — JS bọc mỗi từ trong .w > .wi
+   --i: thứ tự từ · --s: khoảng trễ giữa các từ */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* chừa chỗ cho dấu tiếng Việt và chữ nghiêng khỏi bị cắt */
+  padding: .2em .08em .14em;
+  margin: -.2em -.08em -.14em;
+}
+
+.wi {
+  display: inline-block;
+}
+
+.js .split .wi {
+  transform: translateY(115%);
+  transition: transform 1.05s var(--ease) calc(var(--d, 0s) + var(--i, 0) * var(--s, .06s));
+}
+
+.js .split.is-in .wi {
+  transform: none;
+}
+
+
+/* ==========================================================================
+   17. Reduced motion
+   Tôn trọng cài đặt "giảm chuyển động" của hệ điều hành.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .nav,
+  .float {
+    transition: none;
+  }
+
+  .float .z::after {
+    animation: none;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+
+  .js .img-reveal img,
+  .js .card .img-reveal img {
+    clip-path: none;
+    scale: 1;
+    transition: none;
+  }
+
+  .js .split .wi {
+    transform: none;
+    transition: none;
+  }
+
+  .lb[open]::backdrop,
+  .lb[open] .lb-inner,
+  .lb-img.is-changing {
+    animation: none;
+  }
 }
