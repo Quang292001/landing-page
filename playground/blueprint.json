@@ -1,0 +1,46 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "MỘC Studio — WordPress theme demo",
+    "author": "Quang292001"
+  },
+  "landingPage": "/",
+  "preferredVersions": {
+    "php": "8.2",
+    "wp": "latest"
+  },
+  "features": {
+    "networking": true
+  },
+  "login": true,
+  "steps": [
+    {
+      "step": "setSiteLanguage",
+      "language": "vi"
+    },
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "git:directory",
+        "url": "https://github.com/Quang292001/landing-page",
+        "ref": "wordpress-theme",
+        "refType": "branch",
+        "path": "moc-studio"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Mộc Studio",
+        "blogdescription": "Studio nhiếp ảnh Củ Chi."
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\n/**\n * Dữ liệu mẫu cho bản demo trên WordPress Playground.\n * Tạo 3 \"Bộ ảnh\" (custom post type moc_album) từ ảnh có sẵn trong theme,\n * để người xem vào admin thấy ngay menu \"Bộ ảnh\" có nội dung.\n *\n * Không chạy trực tiếp: build-blueprint.js nhúng file này vào bước runPHP của blueprint.json.\n */\nrequire '/wordpress/wp-load.php';\nrequire_once ABSPATH . 'wp-admin/includes/image.php';\n\n$dir    = get_template_directory() . '/assets/images/';\n$albums = array(\n\tarray( 'Một ngày, là chính mình', 'chan-dung', 'Chân dung / Ngoại cảnh', 'Chân dung', array( 'Natural-Light-AdobeStock.jpeg', 'chandung02.avif', 'chandung03.png' ) ),\n\tarray( 'Chúc mừng sinh nhật', 'sinh-nhat', 'Sinh nhật / Studio', 'Sinh nhật', array( 'sinhnhat.jpg', 'sinhnhat02.jpg', 'sinhnhat03.jpg' ) ),\n\tarray( 'Nàng thơ nhẹ nhàng', 'nang-tho', 'Nàng thơ / Studio', 'Nàng thơ', array( 'nangtho.jpg' ) ),\n);\n\nforeach ( $albums as $i => $a ) {\n\tlist( $title, $slug, $meta, $service, $files ) = $a;\n\n\t$ids = array();\n\tforeach ( $files as $file ) {\n\t\t$upload = wp_upload_bits( $file, null, file_get_contents( $dir . $file ) );\n\t\tif ( ! empty( $upload['error'] ) ) {\n\t\t\tcontinue;\n\t\t}\n\t\t$type = wp_check_filetype( $upload['file'] );\n\t\t$id   = wp_insert_attachment(\n\t\t\tarray(\n\t\t\t\t'post_mime_type' => $type['type'],\n\t\t\t\t'post_title'     => $title,\n\t\t\t\t'post_status'    => 'inherit',\n\t\t\t),\n\t\t\t$upload['file']\n\t\t);\n\t\twp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );\n\t\t$ids[] = $id;\n\t}\n\n\t$post_id = wp_insert_post(\n\t\tarray(\n\t\t\t'post_type'   => 'moc_album',\n\t\t\t'post_status' => 'publish',\n\t\t\t'post_title'  => $title,\n\t\t\t'post_name'   => $slug,\n\t\t\t'menu_order'  => $i,\n\t\t)\n\t);\n\tupdate_post_meta( $post_id, '_moc_album_meta', $meta );\n\tupdate_post_meta( $post_id, '_moc_album_service', $service );\n\tupdate_post_meta( $post_id, '_moc_album_photos', implode( ',', $ids ) );\n\tif ( $ids ) {\n\t\tset_post_thumbnail( $post_id, $ids[0] );\n\t}\n}\n"
+    }
+  ]
+}

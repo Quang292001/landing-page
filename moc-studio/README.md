@@ -2,6 +2,10 @@
 
 Chuyển từ landing page tĩnh ở thư mục gốc sang custom theme WordPress.
 
+🔗 **Demo trực tiếp (WordPress Playground):** https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/Quang292001/landing-page/wordpress-theme/playground/blueprint.json
+
+Demo chạy một bản WordPress ngay trong trình duyệt, đã cài sẵn theme, có dữ liệu mẫu và đăng nhập sẵn admin. Từ thanh admin có thể vào **Giao diện → Tùy biến → MỘC Studio** để sửa bảng giá, hoặc menu **Bộ ảnh** để sửa bộ ảnh. Lần đầu mở mất khoảng 15–30 giây; mọi thay đổi sẽ mất khi đóng tab. Cấu hình demo nằm trong [`playground/`](../playground/).
+
 ## Cài đặt
 
 1. Nén thư mục `moc-studio/` thành `moc-studio.zip` (hoặc copy vào `wp-content/themes/`).
