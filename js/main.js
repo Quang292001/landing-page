@@ -16,7 +16,7 @@ var ALBUMS = {
     meta: 'Chân dung / Ngoại cảnh',
     service: 'Chân dung',
     photos: [
-      'assets/Natural-Light-AdobeStock.jpeg',
+      'assets/chan-dung-01.jpg',
       'assets/chandung02.avif',
        'assets/chandung03.png',
     ]
@@ -32,7 +32,7 @@ var ALBUMS = {
     ]
   },
   'nang-tho': {
-    title: 'Nàng thơ tím',
+    title: 'Nàng thơ nhẹ nhàng',
     meta: 'Nàng thơ / Studio',
     service: 'Nàng thơ',
     photos: [
